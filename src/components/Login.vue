@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       form: {
-        username: "",
+        username: "admin",
         password: ""
       },
       rules: {
@@ -108,7 +108,7 @@ export default {
   width: 120px;
   height: 120px;
   border-radius: 75px;
-  background-color: aqua;
+  background-color: paleturquoise;
   overflow: hidden;
   position: absolute;
   left: 50%;
