@@ -2,10 +2,10 @@ import Vue from 'vue'
 import { Button,Row,Form,FormItem,Input,Message,
     Container,Header,Aside,Main,Footer,Menu,Submenu,
     MenuItem,Breadcrumb,BreadcrumbItem,Card,Col,Table,
-    TableColumn,Switch,Tooltip,Pagination,Dialog
+    TableColumn,Switch,Tooltip,Pagination,Dialog,MessageBox
 } from 'element-ui'
-Vue.use(MenuItem)
 Vue.use(Dialog)
+Vue.use(MenuItem)
 Vue.use(Pagination)
 Vue.use(Tooltip)
 Vue.use(Switch)
@@ -29,3 +29,4 @@ Vue.use(Table)
 Vue.use(TableColumn)
 // 弹框提示
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm

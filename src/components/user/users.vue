@@ -44,7 +44,28 @@
                 <el-button @click="showEditDialog(scope.row)" icon="el-icon-edit" circle></el-button>
               </el-tooltip>
               <!-- 修改用户信息 -->
-              <el-dialog
+              
+
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="删除"
+                placement="top"
+                :enterable="false"
+              >
+                <el-button icon="el-icon-delete" circle @click="Delete(scope.row)"></el-button>
+              </el-tooltip>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="设置"
+                placement="top"
+                :enterable="false"
+              >
+                <el-button icon="el-icon-setting" circle></el-button>
+              </el-tooltip>
+            </el-row>
+            <el-dialog
                 @close="showDialogClosed"
                 title="修改用户"
                 :visible.sync="showDialogVisible"
@@ -68,29 +89,9 @@
                 </el-form>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="cancel2">取 消</el-button>
-                  <el-button type="primary" @click="submit2(scope.row)">确 定</el-button>
+                  <el-button type="primary" @click="submit2()">确 定</el-button>
                 </span>
               </el-dialog>
-
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="删除"
-                placement="top"
-                :enterable="false"
-              >
-                <el-button icon="el-icon-delete" circle @click="Delete(scope.row)"></el-button>
-              </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="设置"
-                placement="top"
-                :enterable="false"
-              >
-                <el-button icon="el-icon-setting" circle></el-button>
-              </el-tooltip>
-            </el-row>
           </template>
         </el-table-column>
       </el-table>
@@ -279,11 +280,28 @@ export default {
     addDialogClosed() {
       this.$refs.addFromRef.resetFields()
     },
-    async Delete(val) {
-      const res = await this.$http.delete('users/' + val.id)
+    Delete(val) {
+  this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then( async () => {
+          const res = await this.$http.delete('users/' + val.id)
       if (res.status != 200) return this.$message.error('删除失败')
       this.$message.success('删除成功')
       this.getUserList()
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+      
     },
     showEditDialog(val) {
       this.showDialogVisible = true
@@ -298,8 +316,7 @@ export default {
        this.$refs.showFromRef.resetFields()
       this.showDialogVisible = false
     },
-   submit2(val){
-     console.log(val)
+   submit2(){
     this.$refs.showFromRef.validate(async vaild =>{
 if(!vaild) return
 else{
