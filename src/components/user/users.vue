@@ -62,9 +62,11 @@
                 placement="top"
                 :enterable="false"
               >
-                <el-button icon="el-icon-setting" circle></el-button>
+              <!-- 权限设置 -->
+                <el-button icon="el-icon-setting" circle @click="quanxian(scope.row)"></el-button>   
               </el-tooltip>
             </el-row>
+            <!-- 修改用户弹出框 -->
             <el-dialog
                 @close="showDialogClosed"
                 title="修改用户"
@@ -106,7 +108,7 @@
         :total="total"
       ></el-pagination>
     </el-card>
-    <!-- 对话框 -->
+    <!-- 添加用户对话框 -->
     <el-dialog @close="addDialogClosed" title="添加用户" :visible.sync="addDialogVisible" width="40%">
       <el-form label-width="80px" :rules="addFormRules" :model="addForm" ref="addFromRef">
         <el-form-item label="用户名称" prop="username">
@@ -125,6 +127,28 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
         <el-button type="primary" @click="submit">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 权限分配对话框 -->
+    <el-dialog :visible.sync="fenpeiDialogVisible" width="40%" title="设置权限" @close="setRoleDialogClosed">
+      <div>
+        <p>当前的用户：{{quanxianForm.userName}} </p>
+        <p>当前的角色：{{quanxianForm.roleName}}</p>
+        <p> 选择角色： <el-select v-model="rolehh" placeholder="请选择">
+    <el-option
+      v-for="item in rolesList"
+      :key="item.id"
+      :label="item.roleName"
+      :value="item.id">
+    </el-option>
+  </el-select></p>
+      </div>
+   
+   
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancel3">取 消</el-button>
+        <el-button type="primary" @click="submit3">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -152,6 +176,7 @@ export default {
       }, 100)
     }
     return {
+      fenpeiDialogVisible:false,
       showDialogVisible: false,
       showForm: {
         id:'',
@@ -222,7 +247,19 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      //用户的数据
+      quanxianForm:{
+        nameId:"",
+        rolesId:"",
+        userName:'',
+        roleName:''
+      },
+      //所有角色的数据
+      rolesList:[],
+      rolehh:''
+
+
     }
   },
   created() {
@@ -303,10 +340,12 @@ export default {
 
       
     },
+    // 弹出修改对话框
     showEditDialog(val) {
+      // console.log(val)                   
       this.showDialogVisible = true
       this.showForm.username  = val.username
-      this.showForm.id = val.id
+      this.showForm.id = val.id      //保存用户id-------------------------------------
     },
     cancel2(){
       this.$refs.showFromRef.resetFields()
@@ -315,6 +354,10 @@ export default {
     showDialogClosed(){
        this.$refs.showFromRef.resetFields()
       this.showDialogVisible = false
+    },
+
+    setRoleDialogClosed(){
+      this.rolehh =""
     },
    submit2(){
     this.$refs.showFromRef.validate(async vaild =>{
@@ -332,6 +375,36 @@ else{
 }
 
     }) 
+    },
+    // 打开权限分配对话框
+  async  quanxian(val){
+      console.log(val)
+      //用户名
+      this.quanxianForm.userName = val.username
+      //角色名
+      this.quanxianForm.roleName = val.role_name
+      //用户id
+  this.quanxianForm.nameId = val.id
+  const {data:src} =await this.$http.get("/roles")      
+  if(src.meta.status !=200) return this.$message.error("角色列表获取失败")
+    this.rolesList = src.data
+    console.log(src)
+      this.fenpeiDialogVisible = true
+    },
+// 权限对话框取消
+cancel3(){
+  this.rolehh=""
+  this.fenpeiDialogVisible = false
+},
+// 权限对话框提交
+   async submit3(){
+     if(!this.rolehh) return this.$message.error("请选择要修改的角色");
+      const {data:src} = await this.$http.put("/users/"+ this.quanxianForm.nameId+"/role",{rid:this.rolehh})
+      console.log(src)
+      if(src.meta.status !=200) return this.$message.error("修改角色失败");
+      this.$message.success("修改角色成功");
+      this.fenpeiDialogVisible = false
+      this.getUserList()
     }
   }
 }
