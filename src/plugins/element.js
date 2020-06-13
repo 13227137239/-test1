@@ -3,10 +3,11 @@ import { Button,Row,Form,FormItem,Input,Message,
     Container,Header,Aside,Main,Footer,Menu,Submenu,
     MenuItem,Breadcrumb,BreadcrumbItem,Card,Col,Table,
     TableColumn,Switch,Tooltip,Pagination,Dialog,MessageBox,
-    Tag,Tree,Select,Option
+    Tag,Tree,Select,Option,Cascader
 } from 'element-ui'
 Vue.use(Dialog)
 Vue.use(Select)
+Vue.use(Cascader)
 Vue.use(Option)
 Vue.use(Tag)
 Vue.use(Tree)
