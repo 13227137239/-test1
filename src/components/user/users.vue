@@ -72,7 +72,7 @@
                 title="修改用户"
                 :visible.sync="showDialogVisible"
                 width="40%"
-              >
+              >goo
                 <el-form
                   label-width="80px"
                   :rules="showFormRules"

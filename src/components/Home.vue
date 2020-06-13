@@ -7,7 +7,7 @@
     </el-header>
 
     <el-container>
-      <el-aside :width="isCollapse ?'64px':'250px'">
+      <el-aside :width="isCollapse ?'64px':'220px'">
         <!-- 侧边栏 -->
         <div class="toggle-button" @click="toggleCollapse">|||</div>
         <el-menu
