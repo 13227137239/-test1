@@ -64,16 +64,16 @@
             <el-button
               type="primary"
               icon="el-icon-edit"
-              size="medium"
+              size="mini"
               @click="compileid(scope.row)"
             >编辑</el-button>
             <el-button
               type="success"
               icon="el-icon-delete"
-              size="medium"
+              size="mini"
               @click="DeleteR(scope.row)"
             >删除</el-button>
-            <el-button type="warning" icon="el-icon-s-check" size="medium" @click="showSetRightDialog(scope.row)">分配权限</el-button>
+            <el-button type="warning" icon="el-icon-s-check" size="mini" @click="showSetRightDialog(scope.row)">分配权限</el-button>
           </template>
         </el-table-column>
       </el-table>
