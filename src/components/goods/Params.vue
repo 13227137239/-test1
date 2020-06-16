@@ -72,7 +72,18 @@
           <el-table :data="onlyTabData" border style="width: 100%">
             <el-table-column type="expand">
               <template slot-scope="scope">
-                <el-tag closable v-for="(item,index) in scope.row.attr_vals" :key="index">{{item}}</el-tag>
+                <el-tag closable v-for="(item,index) in scope.row.attr_vals" :key="index"  @close="dtag(scope.row,index)">{{item}}</el-tag>
+                  <el-input
+                  class="input-new-tag"
+                  v-if="inputVisible"
+                  v-model="inputValue"
+                  ref="saveTagInput"
+                  size="small"
+                  @keyup.enter.native="$event.target.blur"
+                  @blur="handleInputConfirm(scope.row)"
+                ></el-input>
+                <!--  -->
+                <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
               </template>
             </el-table-column>
             <el-table-column type="index" label="#"></el-table-column>
