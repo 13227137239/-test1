@@ -81,7 +81,7 @@
             <!-- 富文本编辑器 -->
             <quill-editor v-model="addForm.goods_introduce"></quill-editor>
             
-            <el-button type="primary" @click="add">添加商品</el-button>
+            <el-button type="primary" @click="add" class="addbtn">添加商品</el-button>
           </el-tab-pane>
         </el-tabs>
       </el-form>
@@ -298,6 +298,7 @@ console.log(this.addForm)
 .ql-editor{
   min-height: 500px;
 }
+
 
 }
 

@@ -4,11 +4,13 @@ import { Button,Row,Form,FormItem,Input,Message,
     MenuItem,Breadcrumb,BreadcrumbItem,Card,Col,Table,
     TableColumn,Switch,Tooltip,Pagination,Dialog,MessageBox,
     Tag,Tree,Select,Option,Cascader,Alert,Tabs,TabPane,Steps,Step,CheckboxGroup,Checkbox,
-    Upload
+    Upload,Timeline,TimelineItem
 
 
 } from 'element-ui'
 Vue.use(Dialog)
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 Vue.use(Upload)
 Vue.use(Step)
 Vue.use(Steps)
